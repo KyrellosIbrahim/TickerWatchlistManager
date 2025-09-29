@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TickerListFragment extends Fragment {
-    private List<String> tickers = new ArrayList<String>();
+    private List<String> tickers = new ArrayList<>();
     private ListView lv;
+    private ArrayAdapter<String> adapter;
+    private static final int MAX_TICKERS = 6;
     public TickerListFragment() {
         // Required empty public constructor
     }
@@ -30,7 +32,7 @@ public class TickerListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ticker_list, container, false);
 
         lv = view.findViewById(R.id.tickerlist);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, tickers);
+        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, tickers);
         lv.setAdapter(adapter);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -39,8 +41,9 @@ public class TickerListFragment extends Fragment {
                 String ticker = tickers.get(i);
                 InfoWebFragment ifw = (InfoWebFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.InfoWebFragment);
 
-                assert ifw != null;
-                ifw.loadUrlForTicker(ticker);
+                if(ifw != null) {
+                    ifw.loadUrlForTicker(ticker);
+                }
             }
         });
         return view;
@@ -50,5 +53,17 @@ public class TickerListFragment extends Fragment {
         tickers.add("NEE");
         tickers.add("AAPL");
         tickers.add("DIS");
+    }
+
+    public void addTicker(String ticker) {
+        if (tickers.size() < MAX_TICKERS && !tickers.contains(ticker.toUpperCase())) {
+            tickers.add(ticker.toUpperCase());
+        } else {
+            tickers.set(5, ticker.toUpperCase());
+        }
+
+        if(adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 }
