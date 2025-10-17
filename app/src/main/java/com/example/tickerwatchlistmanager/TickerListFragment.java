@@ -50,9 +50,12 @@ public class TickerListFragment extends Fragment {
     }
 
     private void defaultTickers() {
-        tickers.add("NEE");
-        tickers.add("AAPL");
-        tickers.add("DIS");
+        if (tickers == null) {
+            tickers = new ArrayList<>();
+            tickers.add("NEE");
+            tickers.add("AAPL");
+            tickers.add("DIS");
+        }
     }
 
     public void addTicker(String ticker) {
