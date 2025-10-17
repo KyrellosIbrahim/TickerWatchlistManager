@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TickerListFragment extends Fragment {
-    private List<String> tickers = new ArrayList<>();
+    private static List<String> tickers;
     private ListView lv;
     private ArrayAdapter<String> adapter;
-    private static final int MAX_TICKERS = 6;
+    private static final int MAX_TICKERS = 5;
     public TickerListFragment() {
         // Required empty public constructor
     }
@@ -56,7 +56,7 @@ public class TickerListFragment extends Fragment {
     }
 
     public void addTicker(String ticker) {
-        if (tickers.size() < MAX_TICKERS && !tickers.contains(ticker.toUpperCase())) {
+        if (tickers.size() <= MAX_TICKERS && !tickers.contains(ticker.toUpperCase())) {
             tickers.add(ticker.toUpperCase());
         } else {
             tickers.set(5, ticker.toUpperCase());
